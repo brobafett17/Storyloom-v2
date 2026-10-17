@@ -1,0 +1,182 @@
+/* Storyloom v0.3 · The Romance Library. Styles intentionally scoped to the extension. */
+#storyloom-root{
+ --sl-burgundy:#4a2637; --sl-wine:#361c2d; --sl-ink:#46313a;
+ --sl-paper:#f7eee2; --sl-paper-dark:#e7d8c7; --sl-rose:#995968;
+ --sl-muted:#725f61; --sl-gold:#d8ba80; --sl-gilt:#eed7a7;
+ font-family:Georgia,'Times New Roman',serif; color:var(--sl-ink); width:100%; max-width:540px;
+ margin:0 auto; font-size:14px; line-height:1.4;
+}
+#storyloom-root *{box-sizing:border-box;}
+#storyloom-root .storyloom-drawer-handle{
+ color:var(--sl-gilt); background:linear-gradient(125deg,#401f31,#60334a);
+ border:1px solid #a27870; border-radius:14px 14px 0 0; min-height:50px;
+ padding:12px 16px; font-family:Georgia,serif; letter-spacing:.04em;
+}
+#storyloom-root .storyloom-drawer-label{font-size:15px;font-weight:700;}
+#storyloom-root .storyloom-panel{
+ padding:0!important; border-radius:0 0 18px 18px; overflow:hidden;
+ border:1px solid #9c6971; border-top:0; box-shadow:0 18px 38px #1c0a144a;
+ background:var(--sl-paper); display:block;
+}
+#storyloom-root .storyloom-book-cover{
+ position:relative; overflow:hidden; min-height:310px; padding:16px 23px 19px;
+ background:
+ radial-gradient(circle at 50% 65%,rgba(149,82,106,.3),transparent 49%),
+ repeating-linear-gradient(110deg,transparent 0 3px,rgba(255,255,255,.009) 3px 4px),
+ linear-gradient(133deg,#61354a 0%,#3c2031 55%,#542c42 100%);
+ border-bottom:8px solid #d3b58a; color:var(--sl-gilt); text-align:center;
+}
+#storyloom-root .storyloom-book-cover::before{
+ content:'';position:absolute;inset:12px;pointer-events:none;
+ border:1px solid #e4cb985c; outline:1px solid #a67d6590; outline-offset:4px;
+}
+#storyloom-root .storyloom-book-cover::after{
+ content:''; position:absolute;pointer-events:none; inset:25px 20px 73px;
+ border:1px solid #e4cb9839; border-radius:140px 140px 8px 8px;
+}
+#storyloom-root .storyloom-cover-line{height:1px;width:66%;margin:2px auto 12px;background:linear-gradient(90deg,transparent,#deb883,transparent);}
+#storyloom-root .storyloom-cover-top{
+ display:flex;justify-content:space-between;position:relative;z-index:1;
+ font:700 9px/1.6 Georgia,serif;letter-spacing:.22em;color:#e2c39d;
+}
+#storyloom-root .storyloom-cover-illustration{width:100%;position:relative;z-index:1;margin:9px auto -13px;display:flex;justify-content:center;color:#e4bb84;}
+#storyloom-root .storyloom-cover-illustration svg{max-width:100%;height:auto;opacity:.94;}
+#storyloom-root .storyloom-cover-title{
+ color:#f8dfb4; position:relative;z-index:1;
+ font:normal clamp(46px,10vw,63px)/.95 Georgia,serif;letter-spacing:-.065em;
+ text-shadow:0 3px 0 #27121d60,0 0 18px #efd2a31a;
+}
+#storyloom-root .storyloom-cover-subtitle{
+ position:relative;z-index:1;margin-top:11px;letter-spacing:.13em;
+ color:#efcfbd;font-size:12px;font-style:italic;
+}
+#storyloom-root .storyloom-cover-ornament{margin:13px 0 18px;letter-spacing:.4em;color:#deb889;}
+#storyloom-root .storyloom-cover-status{
+ display:flex;position:relative;z-index:2;align-items:center;justify-content:space-between;
+ text-align:left;gap:14px; padding:10px 9px 2px;border-top:1px solid #d4b28252;
+}
+#storyloom-root .storyloom-cover-status>div{display:flex;flex-direction:column;gap:3px;}
+#storyloom-root .storyloom-small-title{font:700 9px/1.5 system-ui,sans-serif;letter-spacing:.22em;color:#e1bda7;}
+#storyloom-root .storyloom-status{font:600 12px/1.5 system-ui,sans-serif;color:#f7dfc3;}
+#storyloom-root .storyloom-status-off{color:#d5a5b8;}
+#storyloom-root .storyloom-toggle{display:flex;align-items:center;cursor:pointer;position:relative;flex:none;padding:5px;}
+#storyloom-root .storyloom-toggle input{position:absolute;opacity:0;width:1px;height:1px;}
+#storyloom-root .storyloom-toggle-track{width:57px;height:32px;display:flex;align-items:center;padding:4px;border:1px solid #f0d8b78a;border-radius:60px;background:#775560;transition:background .16s;}
+#storyloom-root .storyloom-toggle-thumb{display:block;border-radius:50%;width:22px;height:22px;background:#f4dbc4;box-shadow:0 1px 4px #160c1288;transition:transform .16s;}
+#storyloom-root .storyloom-toggle input:checked+.storyloom-toggle-track{background:#b27f85;}
+#storyloom-root .storyloom-toggle input:checked+.storyloom-toggle-track .storyloom-toggle-thumb{transform:translateX(25px);background:#ffefd5;}
+#storyloom-root .storyloom-toggle input:focus-visible+.storyloom-toggle-track{outline:3px solid #ffde91;outline-offset:2px;}
+#storyloom-root .storyloom-paper{
+ padding:0 0 4px;background:
+ repeating-linear-gradient(to bottom,transparent 0px,transparent 27px,rgba(154,100,110,.028) 27px,rgba(154,100,110,.028) 28px),
+ linear-gradient(90deg,#e3d1bf 0 6px,#f6eadb 7px 12px, var(--sl-paper) 17px 100%);
+}
+#storyloom-root .storyloom-section{padding:27px 25px 2px;}
+#storyloom-root .storyloom-chapter{display:flex;align-items:center;gap:11px;color:#9f6c69;margin-bottom:6px;}
+#storyloom-root .storyloom-chapter-index{font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.22em;}
+#storyloom-root .storyloom-ornament{font-size:19px;color:#b48d68;line-height:1;}
+#storyloom-root h3{margin:0;color:#5a2d3c;font:normal 26px/1.2 Georgia,serif!important;letter-spacing:-.025em;}
+#storyloom-root .storyloom-intro{font:italic 13px/1.5 Georgia,serif;color:#856f71;margin:7px 0 18px;}
+#storyloom-root .storyloom-vibes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+#storyloom-root button.storyloom-vibe{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+ min-width:0;min-height:123px;margin:0;padding:13px 5px 11px;
+ border-radius:9px;background:#fffaf2;border:1px solid #d9c5b9; box-shadow:0 2px 0 #e7d6c8;
+ font-family:Georgia,serif;color:#5b3744;text-align:center;cursor:pointer;
+}
+#storyloom-root button.storyloom-vibe:hover{background:#fff1e8;border-color:#b27f85;}
+#storyloom-root button.storyloom-vibe.is-selected{background:#f5e1de;border:2px solid #975762;box-shadow:0 0 0 2px #fff6ee inset;}
+#storyloom-root .storyloom-vibe-icon{font:normal 27px/1 Georgia,serif;color:#a16b76;}
+#storyloom-root button.storyloom-vibe strong{font:700 12px/1.3 Georgia,serif;white-space:normal;color:#5d2e40;}
+#storyloom-root button.storyloom-vibe small{font:italic 11px/1.2 Georgia,serif;color:#886a6c;white-space:normal;}
+#storyloom-root .storyloom-caption{font:italic 12px/1.5 Georgia,serif;color:#816b6a;margin:11px 0 5px;}
+#storyloom-root .storyloom-divider{height:26px;display:flex;align-items:center;justify-content:center;margin:8px 25px -12px;color:#ad8080;}
+#storyloom-root .storyloom-divider::before,#storyloom-root .storyloom-divider::after{content:'';height:1px;background:linear-gradient(90deg,transparent,#b18c7c);flex:1;}
+#storyloom-root .storyloom-divider::after{transform:rotate(180deg);}
+#storyloom-root .storyloom-divider span{padding:0 14px;font-size:17px;}
+#storyloom-root .storyloom-length-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+#storyloom-root button[data-storyloom-length]{margin:0;cursor:pointer;min-height:47px;padding:8px 5px;border:1px solid #d4bdb2;border-radius:9px;background:#fff9f0;color:#71505a;font:600 12px/1.25 Georgia,serif;box-shadow:none;}
+#storyloom-root button[data-storyloom-length].is-selected{background:#692f48;color:#ffead1;border-color:#692f48;}
+#storyloom-root .storyloom-covenant{display:flex;gap:12px;align-items:flex-start;margin:25px 25px 22px;padding:15px 15px;background:#eee0d6;border-left:3px solid #a36b74;border-radius:5px;color:#5c4248;}
+#storyloom-root .storyloom-covenant-icon{font:normal 28px/1 Georgia,serif;color:#a16d79;}
+#storyloom-root .storyloom-covenant strong{font:700 14px/1.3 Georgia,serif;color:#603748;}
+#storyloom-root .storyloom-covenant p{margin:5px 0 0;font:12px/1.6 system-ui,sans-serif;color:#715a5a;}
+#storyloom-root .storyloom-advanced{border-top:1px solid #d8c7b8;}
+#storyloom-root .storyloom-advanced>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:59px;padding:14px 25px;color:#6e3548;cursor:pointer;font:700 15px/1.5 Georgia,serif;list-style:none;}
+#storyloom-root .storyloom-advanced>summary small{font:italic 11px Georgia,serif;color:#8f7470;}
+#storyloom-root .storyloom-advanced>summary::-webkit-details-marker{display:none;}
+#storyloom-root .storyloom-chevron{font-size:24px;transition:transform .16s;}
+#storyloom-root .storyloom-advanced[open] .storyloom-chevron{transform:rotate(180deg);}
+#storyloom-root .storyloom-advanced-inner{padding:0 25px 22px;}
+#storyloom-root .storyloom-control{padding:13px 0;border-bottom:1px solid #decfbe;}
+#storyloom-root .storyloom-control-head{display:flex;align-items:center;justify-content:space-between;gap:15px;}
+#storyloom-root .storyloom-control-head label{color:#613a46;font:700 13px Georgia,serif;}
+#storyloom-root .storyloom-control-head output{color:#925a66;font:700 12px system-ui,sans-serif;}
+#storyloom-root .storyloom-control small{color:#806b69;font:12px/1.4 system-ui,sans-serif;}
+#storyloom-root .storyloom-control input[type=range]{width:100%;margin:13px 0 4px;display:block;accent-color:#9b6177;cursor:pointer;}
+#storyloom-root .storyloom-input-label{display:block;margin:19px 0 8px;color:#653a48;font:700 13px Georgia,serif;}
+#storyloom-root .storyloom-input-label small{font:italic 11px Georgia,serif;color:#866f6b;}
+#storyloom-root #storyloom-extra{display:block;width:100%;min-height:85px;resize:vertical;padding:12px;border-radius:8px;border:1px solid #c9a7a6;background:#fffbf5;color:#4b3741;font:13px/1.5 system-ui,sans-serif;}
+#storyloom-root #storyloom-extra::placeholder{color:#92777c;}
+#storyloom-root .storyloom-actions{display:flex;gap:8px;margin-top:12px;}
+#storyloom-root .storyloom-actions button{flex:1;min-height:44px;padding:8px;border-radius:8px;border:1px solid #916270;background:#673448;color:#fff0df;font:600 12px/1.3 Georgia,serif;margin:0;cursor:pointer;}
+#storyloom-root .storyloom-technical{margin-top:12px;color:#675159;font:12px system-ui,sans-serif;}
+#storyloom-root .storyloom-technical summary{cursor:pointer;padding:9px 0;}
+#storyloom-root #storyloom-preview{max-height:170px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1e2d6;border:1px solid #dfc8b6;color:#49383b;border-radius:7px;padding:10px;font:11px/1.5 ui-monospace,monospace;}
+#storyloom-root .storyloom-footer{display:flex;gap:12px;justify-content:center;align-items:center;text-align:center;padding:11px 25px 18px;border-top:1px solid #dac8b7;color:#9a6c77;}
+#storyloom-root .storyloom-footer p{margin:0;font:italic 12px/1.5 Georgia,serif;color:#977b7b;}
+#storyloom-root.storyloom-disabled .storyloom-vibes,#storyloom-root.storyloom-disabled .storyloom-length-options{opacity:.56;}
+#storyloom-root button:focus-visible,#storyloom-root textarea:focus-visible,#storyloom-root summary:focus-visible{outline:3px solid #ae6682;outline-offset:2px;}
+@media(max-width:460px){
+ #storyloom-root{margin:6px auto;}
+ #storyloom-root .storyloom-book-cover{padding:14px 15px 17px;min-height:292px;}
+ #storyloom-root .storyloom-section{padding:22px 16px 2px;}
+ #storyloom-root .storyloom-covenant{margin:21px 16px 17px;padding:12px;}
+ #storyloom-root .storyloom-advanced>summary{padding:13px 16px;}
+ #storyloom-root .storyloom-advanced-inner{padding:0 16px 17px;}
+ #storyloom-root .storyloom-vibes{gap:6px;}
+ #storyloom-root button.storyloom-vibe{min-height:118px;padding:11px 2px 9px;}
+ #storyloom-root button.storyloom-vibe strong{font-size:11px;}
+ #storyloom-root button.storyloom-vibe small{font-size:10px;}
+ #storyloom-root button[data-storyloom-length]{font-size:11px;}
+ #storyloom-root .storyloom-cover-title{font-size:49px;}
+ #storyloom-root h3{font-size:24px!important;}
+}
+@media (prefers-reduced-motion:reduce){#storyloom-root *,#storyloom-root *::before,#storyloom-root *::after{transition:none!important;}}
+
+
+/* V0.4 dedicated rose launcher and independent modal, not an Extensions accordion. */
+#storyloom-launcher {
+ position:fixed!important;right:15px;bottom:calc(96px + env(safe-area-inset-bottom,0px));
+ z-index:11010;display:flex;align-items:center;justify-content:center;gap:7px;min-width:54px;min-height:54px;
+ padding:9px 13px;margin:0;border-radius:999px!important;cursor:pointer;
+ border:2px solid #dbb885!important;background:linear-gradient(140deg,#6d3954,#392032)!important;
+ color:#f7dab1!important;box-shadow:0 7px 24px #100710b8, inset 0 0 0 2px #a46f7b!important;
+ font:700 12px Georgia,serif!important;letter-spacing:.02em;
+}
+#storyloom-launcher .storyloom-launcher-rose{font-size:25px;line-height:1;}
+#storyloom-launcher.storyloom-launcher-off{opacity:.72;}
+#storyloom-launcher:focus-visible,#storyloom-close:focus-visible{outline:3px solid #f3cf8d;outline-offset:3px;}
+#storyloom-backdrop[hidden]{display:none!important;}
+#storyloom-backdrop.storyloom-backdrop{position:fixed!important;inset:0!important;z-index:11011!important;
+ background:rgba(12,5,13,.84);display:flex;justify-content:center;align-items:center;
+ padding:12px;backdrop-filter:blur(3px);box-sizing:border-box;
+}
+#storyloom-root.storyloom-dialog{position:relative;box-sizing:border-box;max-width:540px;width:100%;
+ max-height:calc(100dvh - 24px);height:auto;overflow-y:auto;margin:0!important;
+ background:#f7eee2;border-radius:16px;border:1px solid #d5ac85;
+ box-shadow:0 20px 72px #060307df;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+}
+#storyloom-root .storyloom-panel{display:block;border:none!important;box-shadow:none!important;border-radius:0!important;}
+#storyloom-close{position:sticky;float:right;top:8px;right:8px;margin:8px 8px -48px 0;z-index:10;
+ border:1px solid #d9b880;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+ padding:0;background:#381f30;color:#f6d6b1;font:bold 26px/1 Georgia,serif;cursor:pointer;
+}
+#storyloom-root .storyloom-cover-top{padding-right:38px;}
+@media(max-width:480px){
+ #storyloom-backdrop.storyloom-backdrop{padding:7px;align-items:center;}
+ #storyloom-root.storyloom-dialog{max-height:calc(100dvh - 14px);border-radius:12px;}
+ #storyloom-launcher{right:12px;bottom:calc(84px + env(safe-area-inset-bottom,0px));}
+ #storyloom-launcher .storyloom-launcher-label{display:none;}
+}
+@media(prefers-reduced-motion:reduce){#storyloom-backdrop{backdrop-filter:none;}}

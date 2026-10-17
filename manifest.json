@@ -1,0 +1,11 @@
+{
+  "display_name": "Storyloom | Romance Library · Rose Launcher",
+  "loading_order": 8,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "Storyloom (user-created prototype)",
+  "version": "0.4.0",
+  "auto_update": false
+}
