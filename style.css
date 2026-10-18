@@ -180,3 +180,27 @@
  #storyloom-launcher .storyloom-launcher-label{display:none;}
 }
 @media(prefers-reduced-motion:reduce){#storyloom-backdrop{backdrop-filter:none;}}
+
+
+/* Storyloom v0.5 draggable rose and fallback menu launcher */
+#storyloom-launcher.storyloom-positioned {
+  position:fixed!important; right:auto!important; bottom:auto!important;
+  z-index:2147480000!important; touch-action:none!important;
+  user-select:none!important; -webkit-user-select:none!important;
+  -webkit-tap-highlight-color:transparent;
+}
+#storyloom-launcher.storyloom-positioned .storyloom-launcher-rose {font-size:25px;line-height:1;}
+#storyloom-backdrop.storyloom-backdrop {z-index:2147480100!important;}
+#storyloom-menu-entry {display:block!important;padding:10px 14px;margin:10px 0;}
+#storyloom-open-from-menu {
+  display:block!important; width:100%;min-height:48px;
+  background:#4b2639!important; color:#f6e5c9!important;
+  border:1px solid #d2a976!important;border-radius:10px!important;
+  padding:11px 15px!important;font:600 15px Georgia,serif!important;
+  text-align:center!important;cursor:pointer;
+}
+#storyloom-root .storyloom-rose-help {margin:12px 0 7px;font:italic 12px Georgia,serif;color:#765464;}
+#storyloom-root #storyloom-reset-rose {
+  background:#f8f0e4;color:#643b4b;border:1px solid #aa8190;
+  border-radius:7px;padding:8px 11px;font:12px Georgia,serif;cursor:pointer;
+}

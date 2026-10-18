@@ -1,11 +1,11 @@
-// Storyloom RP Controls v0.4.0: a simple visual steering extension for SillyTavern.
+// Storyloom RP Controls v0.5.0: a simple visual steering extension for SillyTavern.
 // No external requests, tracking, automatic generations, or preset rewriting.
 const STORYLOOM_NAME = 'storyloom_rp_controls';
 const STORYLOOM_PROMPT_KEY = 'storyloom_rp_live_tuning';
 const STORYLOOM_IN_CHAT = 1;  // SillyTavern extension prompt position.
 const STORYLOOM_SYSTEM = 0;   // SillyTavern prompt role.
 const STORYLOOM_DEFAULTS = Object.freeze({
-  enabled: true, mode: 'yearning', length: 'novel',
+  rosePos: null, enabled: true, mode: 'yearning', length: 'novel',
   npc: 4, pace: 2, emotion: 4, prose: 4, freshness: 5, extra: ''
 });
 const STORYLOOM_MODES = Object.freeze({
@@ -170,15 +170,123 @@ function storyloomClose() {
   document.getElementById('storyloom-launcher')?.setAttribute('aria-expanded','false');
   if (storyloomPreviousFocus && document.contains(storyloomPreviousFocus)) storyloomPreviousFocus.focus();
 }
+
+// Drag with a finger or mouse. Coordinates are clamped to the visible viewport and
+// saved in SillyTavern's extension settings (with browser storage as a fallback).
+const STORYLOOM_ROSE_POSITION_KEY = 'storyloom_rose_position_v050';
+function storyloomClamp(value, low, high) { return Math.min(Math.max(value, low), Math.max(low, high)); }
+function storyloomPositionRose(x, y) {
+  const rose = document.getElementById('storyloom-launcher');
+  if (!rose) return;
+  rose.classList.add('storyloom-positioned');
+  const w = rose.offsetWidth || 54;
+  const h = rose.offsetHeight || 54;
+  const left = storyloomClamp(Number(x) || 0, 6, window.innerWidth - w - 6);
+  const top = storyloomClamp(Number(y) || 0, 6, window.innerHeight - h - 6);
+  rose.style.left = `${Math.round(left)}px`;
+  rose.style.top = `${Math.round(top)}px`;
+}
+function storyloomLoadRosePosition() {
+  const rose = document.getElementById('storyloom-launcher');
+  if (!rose) return;
+  let saved = null;
+  try { saved = storyloomSettings().rosePos; } catch (e) { console.warn('[Storyloom] Position settings unavailable:', e); }
+  if (!saved || !Number.isFinite(Number(saved.x)) || !Number.isFinite(Number(saved.y))) {
+    try { saved = JSON.parse(localStorage.getItem(STORYLOOM_ROSE_POSITION_KEY)); } catch (_) {}
+  }
+  if (saved && Number.isFinite(Number(saved.x)) && Number.isFinite(Number(saved.y))) {
+    storyloomPositionRose(Number(saved.x), Number(saved.y));
+  } else {
+    storyloomPositionRose(window.innerWidth - rose.offsetWidth - 14, window.innerHeight - rose.offsetHeight - 100);
+  }
+}
+function storyloomStoreRosePosition() {
+  const rose = document.getElementById('storyloom-launcher');
+  if (!rose) return;
+  const rect = rose.getBoundingClientRect();
+  const pos = {x: Math.round(rect.left), y: Math.round(rect.top)};
+  try {
+    storyloomSettings().rosePos = pos;
+    const context = storyloomContext();
+    if (typeof context.saveSettingsDebounced === 'function') context.saveSettingsDebounced();
+  } catch (e) { console.warn('[Storyloom] Could not save rose in extension settings:', e); }
+  try { localStorage.setItem(STORYLOOM_ROSE_POSITION_KEY, JSON.stringify(pos)); } catch (_) {}
+}
+function storyloomResetRosePosition() {
+  try { storyloomSettings().rosePos = null; storyloomContext().saveSettingsDebounced?.(); } catch (_) {}
+  try { localStorage.removeItem(STORYLOOM_ROSE_POSITION_KEY); } catch (_) {}
+  const rose = document.getElementById('storyloom-launcher');
+  if (rose) storyloomPositionRose(window.innerWidth - rose.offsetWidth - 14, window.innerHeight - rose.offsetHeight - 100);
+}
+function storyloomEnableRoseDrag(rose) {
+  let gesture = null;
+  let ignoreClick = false;
+  rose.addEventListener('pointerdown', e => {
+    if (e.button !== undefined && e.button !== 0) return;
+    const rect = rose.getBoundingClientRect();
+    gesture = {id:e.pointerId, startX:e.clientX, startY:e.clientY, left:rect.left, top:rect.top, dragged:false};
+    ignoreClick = false;
+    try { rose.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  rose.addEventListener('pointermove', e => {
+    if (!gesture || e.pointerId !== gesture.id) return;
+    const dx = e.clientX - gesture.startX;
+    const dy = e.clientY - gesture.startY;
+    if (!gesture.dragged && Math.hypot(dx,dy) < 8) return;
+    gesture.dragged = true;
+    storyloomPositionRose(gesture.left+dx, gesture.top+dy);
+    e.preventDefault();
+  });
+  function end(e) {
+    if (!gesture || e.pointerId !== gesture.id) return;
+    if (gesture.dragged) {
+      ignoreClick = true;
+      storyloomStoreRosePosition();
+    }
+    gesture = null;
+    try { if(rose.hasPointerCapture(e.pointerId))rose.releasePointerCapture(e.pointerId); } catch (_) {}
+  }
+  rose.addEventListener('pointerup', end);
+  rose.addEventListener('pointercancel', end);
+  rose.addEventListener('click', e => {
+    if (ignoreClick) {
+      ignoreClick = false;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+    storyloomOpen();
+  });
+  window.addEventListener('resize', () => {
+    const rect=rose.getBoundingClientRect();
+    storyloomPositionRose(rect.left, rect.top);
+  });
+}
+// Second launcher inside Extensions: useful when another theme overlays the rose.
+function storyloomAddMenuEntry() {
+  if (document.getElementById('storyloom-menu-entry')) return;
+  const target = document.querySelector('#extensions_settings2') || document.querySelector('#extensions_settings');
+  if (!target) return;
+  const wrap=document.createElement('div');
+  wrap.id='storyloom-menu-entry';
+  const button=document.createElement('button');
+  button.type='button';
+  button.id='storyloom-open-from-menu';
+  button.textContent='🌹 Open Storyloom · Romance Library';
+  button.addEventListener('click', storyloomOpen);
+  wrap.appendChild(button);
+  target.appendChild(wrap);
+}
+
 function storyloomInit() {
-  if (document.getElementById('storyloom-launcher')) return;
+  if (document.getElementById('storyloom-launcher')) { storyloomAddMenuEntry(); return; }
   const launcher=document.createElement('button');
   launcher.type='button'; launcher.id='storyloom-launcher';
   launcher.title='Open Storyloom · The Romance Library';
   launcher.setAttribute('aria-label','Open Storyloom Romance Library');
   launcher.setAttribute('aria-expanded','false');
   launcher.setAttribute('aria-controls','storyloom-backdrop');
-  launcher.innerHTML='<span aria-hidden="true" class="storyloom-launcher-rose">❦</span><span class="storyloom-launcher-label">Storyloom</span>';
+  launcher.innerHTML='<span aria-hidden="true" class="storyloom-launcher-rose">🌹</span><span class="storyloom-launcher-label">Storyloom</span>';
   const overlay=document.createElement('div');
   overlay.id='storyloom-backdrop'; overlay.className='storyloom-backdrop'; overlay.hidden=true;
   const root=document.createElement('div'); root.id='storyloom-root';
@@ -189,7 +297,9 @@ function storyloomInit() {
   root.append(close);
   const panel=document.createElement('div'); panel.className='storyloom-panel'; panel.innerHTML=STORYLOOM_PANEL_HTML;
   root.append(panel); overlay.append(root); document.body.append(launcher,overlay);
-  launcher.addEventListener('click',storyloomOpen);
+  storyloomEnableRoseDrag(launcher);
+  storyloomLoadRosePosition();
+  storyloomAddMenuEntry();
   close.addEventListener('click',storyloomClose);
   overlay.addEventListener('click',(e)=>{ if(e.target===overlay)storyloomClose(); });
   document.addEventListener('keydown',(e)=>{ if(!overlay.hidden && e.key==='Escape') storyloomClose(); });
@@ -226,6 +336,16 @@ function storyloomInit() {
   root.querySelector('#storyloom-reset').addEventListener('click',()=>{
     Object.assign(storyloomSettings(),{...STORYLOOM_DEFAULTS});storyloomSave();storyloomRender();
   });
+  const moveHelp=document.createElement('p');
+  moveHelp.className='storyloom-rose-help';
+  moveHelp.textContent='Drag the floating 🌹 to move it anywhere on your screen.';
+  const resetRose=document.createElement('button');
+  resetRose.type='button';resetRose.id='storyloom-reset-rose';
+  resetRose.textContent='Reset rose position';
+  resetRose.addEventListener('click',()=>storyloomResetRosePosition());
+  const actionArea=root.querySelector('.storyloom-actions');
+  actionArea.parentNode.insertBefore(moveHelp,actionArea.nextSibling);
+  moveHelp.after(resetRose);
   root.querySelector('#storyloom-copy').addEventListener('click',async()=>{
     try{
       await navigator.clipboard.writeText(storyloomPrompt(storyloomSettings()));
@@ -236,11 +356,17 @@ function storyloomInit() {
     }
   });
   storyloomRender();
-  console.info('[Storyloom] v0.4 loaded with standalone launcher');
+  console.info('[Storyloom] v0.5 loaded: draggable rose + Extensions menu button');
 }
+let storyloomBootAttempts=0;
 function storyloomBoot() {
-  try { storyloomInit(); }
-  catch(e) {console.error('[Storyloom] Startup error:',e); }
+  try {
+    storyloomInit();
+    storyloomAddMenuEntry();
+  } catch(e) {
+    console.error('[Storyloom] Startup error:',e);
+    if (++storyloomBootAttempts < 8) window.setTimeout(storyloomBoot,700);
+  }
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',storyloomBoot,{once:true});
 else storyloomBoot();
