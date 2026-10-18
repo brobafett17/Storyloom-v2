@@ -1,6 +1,6 @@
 # 🌹 Storyloom v0.5 · Romance Library
 
-This is a **SillyTavern Chat UI extension** with an independent draggable rose launcher, romance style presets, AO3-focused prompt steering, and a backup **Open Storyloom** button in the Extensions settings.
+This is a **SillyTavern Chat UI extension** with an independent draggable launcher, romance style presets, AO3-focused prompt steering, and a backup **Open Storyloom** button in the Extensions settings.
 
 ## Update an existing install
 
